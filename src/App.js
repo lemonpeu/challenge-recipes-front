@@ -1,9 +1,15 @@
+import Header from './sections/shared/Header';
+import RecipesList from './sections/principal/RecipesList';
+import Form from './common/Form';
+
 const App = () => {
     return (
         <>
             <nav></nav>
             <main role="main">
-                <h1>Recipes Website</h1>
+                <Header title="Recetas a un solo click" description="Anime and more" />
+                <Form />
+                <RecipesList />
             </main>
             <footer></footer>
         </>
