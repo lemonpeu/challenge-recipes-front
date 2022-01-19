@@ -3,8 +3,7 @@ const App = () => {
         <>
             <nav></nav>
             <main role="main">
-                <p>Hola</p>
-                <strong>Hola</strong>
+                <h1>Recipes Website</h1>
             </main>
             <footer></footer>
         </>
