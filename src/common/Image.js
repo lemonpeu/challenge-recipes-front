@@ -9,8 +9,8 @@ const Image = ({ width, height, padding, src, alt }) => {
 };
 
 const StyledImage = styled.div`
-    width: ${(props) => (props.width ? props.width : 'auto')};
-    height: ${(props) => (props.height ? props.height : 'auto')};
+    width: ${(props) => (props.width ? props.width : '100%')};
+    height: ${(props) => (props.height ? props.height : '100%')};
     padding: ${(props) => props.padding && '1rem'};
     overflow: hidden;
     img {

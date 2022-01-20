@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import AutoComplete from './AutoComplete';
+import Input from './Input';
 import Button from './Button';
 
 const Form = () => {
@@ -9,13 +9,16 @@ const Form = () => {
 
     return (
         <StyledForm onSubmit={onSubmit}>
-            <AutoComplete>
-                <Button styled="principal" submit name="Enviar" />
-            </AutoComplete>
+            <Input label="Search recipes" forInput="search" name="search" />
+            <Button styled="principal" submit name="Search" />
         </StyledForm>
     );
 };
 
-const StyledForm = styled.form``;
+const StyledForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
 
 export default Form;

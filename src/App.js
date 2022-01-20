@@ -1,18 +1,16 @@
-import Header from './sections/shared/Header';
-import RecipesList from './sections/principal/RecipesList';
-import Form from './common/Form';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './containers/Home';
+import { Layout } from './sections/shared/Layout';
 
 const App = () => {
     return (
-        <>
-            <nav></nav>
-            <main role="main">
-                <Header title="Recetas a un solo click" description="Anime and more" />
-                <Form />
-                <RecipesList />
-            </main>
-            <footer></footer>
-        </>
+        <Router>
+            <Layout>
+                <Routes>
+                    <Route exact path="/" element={<Home />} />
+                </Routes>
+            </Layout>
+        </Router>
     );
 };
 
