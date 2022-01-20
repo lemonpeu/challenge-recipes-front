@@ -1,12 +1,16 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './containers/Home';
+import { Layout } from './sections/shared/Layout';
+
 const App = () => {
     return (
-        <>
-            <nav></nav>
-            <main role="main">
-                <h1>Recipes Website</h1>
-            </main>
-            <footer></footer>
-        </>
+        <Router>
+            <Layout>
+                <Routes>
+                    <Route exact path="/" element={<Home />} />
+                </Routes>
+            </Layout>
+        </Router>
     );
 };
 
