@@ -24,6 +24,7 @@ const StyledInput = styled.div`
     input {
         width: 100%;
         height: 38px;
+        font-size: 1.5rem;
     }
 `;
 

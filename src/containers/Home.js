@@ -1,13 +1,11 @@
 import Header from '../sections/shared/Header';
-import RecipesList from '../sections/principal/RecipesList';
-import Form from '../common/Form';
+import RecipesSearch from '../sections/principal/RecipesSearch';
 
 const Home = () => {
     return (
         <>
             <Header title="Recipes challenge" variant="principal" />
-            <Form />
-            <RecipesList />
+            <RecipesSearch />
         </>
     );
 };
