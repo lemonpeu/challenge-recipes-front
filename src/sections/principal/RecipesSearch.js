@@ -6,6 +6,7 @@ import { capitalize } from '../../utils/convertString';
 
 const RecipesSearch = () => {
     const [recipes, setRecipes] = useState([]);
+    const [isOrder, setIsOrder] = useState(false);
     const { elements } = useQuery({
         method: 'get',
         endpoint: '/api/recipes',
@@ -15,6 +16,7 @@ const RecipesSearch = () => {
     const findRecipes = (value) => {
         const searchLowercase = value.toLowerCase();
         const searchCapitalize = capitalize(value);
+        setIsOrder(false);
         if (elements) {
             let filteredRecipes = [];
             for (const recipe of elements) {
@@ -47,7 +49,11 @@ const RecipesSearch = () => {
                 onClick={() => setRecipes([])}
                 isSecondaryBtn
             />
-            <RecipesList searchRecipes={recipes} />
+            <RecipesList
+                setIsOrder={(e) => setIsOrder(e)}
+                isOrder={isOrder}
+                searchRecipes={recipes}
+            />
         </section>
     );
 };
