@@ -1,9 +1,10 @@
 import Image from './Image';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Article = ({ name, imageURL, m, mb, mt, stars }) => {
+const Article = ({ name, urlAnimeImage, m, mb, mt, rating, id }) => {
     const defaultImage = 'https://i.pinimg.com/564x/25/51/d4/2551d4ecb38352c4972c0b7b489ca8d8.jpg';
-    const recipeImage = imageURL !== '' ? imageURL : defaultImage;
+    const recipeImage = urlAnimeImage !== '' ? urlAnimeImage : defaultImage;
 
     return (
         <StyledArticle
@@ -13,10 +14,11 @@ const Article = ({ name, imageURL, m, mb, mt, stars }) => {
                 marginTop: `${mt * 2}rem`,
             }}
         >
-            <Image height="10rem" src={recipeImage} alt="" />
+            <Image height="14rem" src={recipeImage} alt="" />
             <h4>
-                {name} | Rating: {stars}
+                {name} | Rating: {rating} ⭐
             </h4>
+            <Link to={`/recipe/${id}`}>Go to recipe</Link>
         </StyledArticle>
     );
 };
@@ -28,6 +30,9 @@ const StyledArticle = styled.article`
     h4 {
         font-size: 1.2rem;
         font-weight: 200;
+    }
+    a {
+        font-size: 1.2rem;
     }
 `;
 
