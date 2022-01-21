@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { COLORS } from '../utils/COLORS';
 
-const Button = ({ styled, name, submit, m = 0 }) => {
+const Button = ({ styled, btnName, submit, m = 0 }) => {
     return (
         <StyledButton
             style={{ margin: `${m * 2}rem` }}
             className={styled}
             type={submit ? 'submit' : 'button'}
         >
-            {name}
+            {btnName}
         </StyledButton>
     );
 };

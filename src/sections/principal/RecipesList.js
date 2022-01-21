@@ -24,7 +24,7 @@ const RecipesList = ({ searchRecipes }) => {
             <h3 className="title">Recipes list</h3>
             <section className="article-container">
                 {loading ? (
-                    <p>Cargando</p>
+                    <p>Loading</p>
                 ) : (
                     recipes.map((recipe) => <Article mb={2} {...recipe} key={recipe.id} />)
                 )}

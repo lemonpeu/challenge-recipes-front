@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import React from 'react';
 import Nav from './Nav';
 import Footer from './Footer';
@@ -7,8 +8,12 @@ export const Layout = (props) => {
     return (
         <>
             <Nav />
-            <main>{children}</main>
+            <StyledMain>{children}</StyledMain>
             <Footer />
         </>
     );
 };
+
+const StyledMain = styled.main`
+    height: 100%;
+`;
