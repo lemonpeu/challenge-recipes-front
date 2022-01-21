@@ -1,13 +1,23 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useQuery } from '../../utils/hooks/useQuery';
 import Article from '../../common/Article';
 
-const RecipesList = () => {
+const RecipesList = ({ searchRecipes }) => {
+    const [recipes, setRecipies] = useState([]);
     const { elements, loading } = useQuery({
         method: 'get',
         endpoint: '/api/recipes',
         defaultValue: [],
     });
+
+    useEffect(() => {
+        if (searchRecipes.length > 0) {
+            setRecipies(searchRecipes);
+        } else {
+            setRecipies(elements);
+        }
+    }, [elements, searchRecipes]);
 
     return (
         <StyledRecipesList>
@@ -16,7 +26,7 @@ const RecipesList = () => {
                 {loading ? (
                     <p>Cargando</p>
                 ) : (
-                    elements.map((recipe) => <Article mb={2} {...recipe} key={recipe.id} />)
+                    recipes.map((recipe) => <Article mb={2} {...recipe} key={recipe.id} />)
                 )}
             </section>
         </StyledRecipesList>
