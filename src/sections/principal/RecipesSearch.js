@@ -44,6 +44,7 @@ const RecipesSearch = () => {
                 label="Search recipes by name, anime name or ingredients"
                 elements={elements}
                 onSubmit={onSubmit}
+                onClick={() => setRecipes([])}
             />
             <RecipesList searchRecipes={recipes} />
         </section>
