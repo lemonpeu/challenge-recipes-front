@@ -14,7 +14,6 @@ const RecipesSearch = () => {
 
     return (
         <section>
-            <h2>Results!</h2>
             <Form setFilteredRecipes={(data) => setRecipes(data)} elements={elements} />
             <RecipesList searchRecipes={recipes} />
         </section>

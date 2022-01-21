@@ -6,17 +6,17 @@ const Form = ({ elements, setFilteredRecipes }) => {
     const onSubmit = (event) => {
         event.preventDefault();
         if (elements) {
-            let arr = [];
+            let filteredRecipes = [];
             for (const recipe of elements) {
                 if (recipe.name.includes(event.target.search.value)) {
-                    arr.push(recipe);
+                    filteredRecipes.push(recipe);
                 }
                 for (const ingredient of recipe.Ingredients) {
                     if (ingredient.name.includes(event.target.search.value)) {
-                        arr.push(recipe);
+                        filteredRecipes.push(recipe);
                     }
                 }
-                setFilteredRecipes(arr);
+                setFilteredRecipes(filteredRecipes);
             }
         }
     };
