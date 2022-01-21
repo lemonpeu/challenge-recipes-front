@@ -25,7 +25,9 @@ const Form = ({ elements, setFilteredRecipes }) => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        findRecipes(event.target.search.value);
+        if (event.target.search.value) {
+            findRecipes(event.target.search.value);
+        }
     };
 
     return (
@@ -36,6 +38,12 @@ const Form = ({ elements, setFilteredRecipes }) => {
                 name="search"
             />
             <Button styled="principal" submit name="Search" />
+            <Button
+                styled="secondary"
+                m={1}
+                onClick={() => setFilteredRecipes([])}
+                name="See all"
+            />
         </StyledForm>
     );
 };
