@@ -45,6 +45,7 @@ const RecipesSearch = () => {
                 elements={elements}
                 onSubmit={onSubmit}
                 onClick={() => setRecipes([])}
+                isSecondaryBtn
             />
             <RecipesList searchRecipes={recipes} />
         </section>
