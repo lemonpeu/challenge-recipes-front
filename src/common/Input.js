@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-const Input = ({ forInput, label, name }) => {
+const Input = ({ forInput, label, name, defaultValue }) => {
     return (
         <StyledInput>
             <label htmlFor={forInput} name={name}>
                 {label}
             </label>
-            <input autoComplete="off" id={forInput} name={name} />
+            <input defaultValue={defaultValue} autoComplete="off" id={forInput} name={name} />
         </StyledInput>
     );
 };

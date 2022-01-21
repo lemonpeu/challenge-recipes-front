@@ -1,7 +1,8 @@
 import Image from './Image';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Article = ({ name, urlAnimeImage, m, mb, mt, rating }) => {
+const Article = ({ name, urlAnimeImage, m, mb, mt, rating, id }) => {
     const defaultImage = 'https://i.pinimg.com/564x/25/51/d4/2551d4ecb38352c4972c0b7b489ca8d8.jpg';
     const recipeImage = urlAnimeImage !== '' ? urlAnimeImage : defaultImage;
 
@@ -17,6 +18,7 @@ const Article = ({ name, urlAnimeImage, m, mb, mt, rating }) => {
             <h4>
                 {name} | Rating: {rating} ⭐
             </h4>
+            <Link to={`/recipe/${id}`}>Go to recipe</Link>
         </StyledArticle>
     );
 };
@@ -28,6 +30,9 @@ const StyledArticle = styled.article`
     h4 {
         font-size: 1.2rem;
         font-weight: 200;
+    }
+    a {
+        font-size: 1.2rem;
     }
 `;
 

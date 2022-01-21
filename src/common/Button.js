@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { COLORS } from '../utils/COLORS';
 
-const Button = ({ styled, name, submit, m = 0, onClick }) => {
+const Button = ({ styled, btnName, submit, m = 0, onClick }) => {
     return (
         <StyledButton
             style={{ margin: `${m * 2}rem` }}
@@ -9,7 +9,7 @@ const Button = ({ styled, name, submit, m = 0, onClick }) => {
             type={submit ? 'submit' : 'button'}
             onClick={onClick}
         >
-            {name}
+            {btnName}
         </StyledButton>
     );
 };
