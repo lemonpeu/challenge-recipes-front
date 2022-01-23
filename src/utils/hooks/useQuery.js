@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export const useQuery = ({ method, endpoint, data, defaultValue, options }) => {
@@ -6,7 +6,7 @@ export const useQuery = ({ method, endpoint, data, defaultValue, options }) => {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(true);
 
-    const fetchData = useCallback(async () => {
+    const fetchData = async () => {
         try {
             const recipes = await axios({
                 method,
@@ -16,15 +16,16 @@ export const useQuery = ({ method, endpoint, data, defaultValue, options }) => {
             });
             setElements(recipes.data);
         } catch (e) {
+            console.warn('Error', e.response.data);
             setError(e);
         } finally {
             setLoading(false);
         }
-    }, [method, data, options, endpoint]);
+    };
 
     useEffect(() => {
         fetchData();
-    }, [data, endpoint, fetchData]);
+    }, [method, endpoint, data]);
 
     return { elements, error, loading };
 };

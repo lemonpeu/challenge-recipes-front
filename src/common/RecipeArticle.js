@@ -1,26 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Image from './Image';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '../utils/hooks/useQuery';
+
+//Components
+import Image from './Image';
 import Form from './Form';
 import Rating from '../sections/article/Rating';
-import { useEffect } from 'react/cjs/react.development';
+import Box from './styled/Article';
 
 const RecipeArticle = () => {
     let { id } = useParams();
-
-    const [recipe, setRecipe] = useState();
-    const [userQuantity, setUserQuantity] = useState(1);
-
     const { elements, loading } = useQuery({
         method: 'get',
         endpoint: '/api/recipe/' + id,
         defaultValue: [],
     });
 
+    const [recipe, setRecipe] = useState();
+    const [userQuantity, setUserQuantity] = useState(1);
+    const [userRating, setUserRating] = useState({ rating: 0, people: 0 });
+
     useEffect(() => {
-        if (!recipe) setRecipe(elements.recipe);
+        if (elements.recipe && !recipe) {
+            setRecipe(elements.recipe);
+            setUserRating({ rating: elements.recipe.rating, people: elements.recipe.people });
+        }
     }, [elements, recipe]);
 
     const setDefaultQuantity = (ingredient) => {
@@ -43,10 +48,21 @@ const RecipeArticle = () => {
                 <>
                     <Image src={recipe.urlAnimeImage} alt={recipe.name} />
                     <h2>{recipe.name}</h2>
-                    <p>Rating: {recipe.rating / recipe.people} ⭐</p>
+                    <p>
+                        Rating: {userRating && (userRating.rating / userRating.people).toFixed(1)}{' '}
+                        ⭐
+                    </p>
                     <div>
                         <p>Send your rating for this recipe:</p>
-                        <Rating id={recipe.id} />
+                        <Rating
+                            setUserRating={(e) =>
+                                setUserRating({
+                                    rating: userRating.rating + e,
+                                    people: userRating.people + 1,
+                                })
+                            }
+                            id={id}
+                        />
                     </div>
                     <Form
                         defaultValue={recipe.quantity}
@@ -55,7 +71,7 @@ const RecipeArticle = () => {
                         label="Servings:"
                         onSubmit={multiplyQuantity}
                     />
-                    <div className="ingredients">
+                    <Box padding="1rem">
                         <p>Ingredients:</p>
                         <ul>
                             {recipe.Ingredients.map((ingredient, index) => (
@@ -64,13 +80,13 @@ const RecipeArticle = () => {
                                 </li>
                             ))}
                         </ul>
-                    </div>
-                    <div className="instructions">
+                    </Box>
+                    <Box padding="1rem">
                         <p>Instructions:</p>
                         {recipe.steps.map((step, index) => (
                             <p key={index}>{step}</p>
                         ))}
-                    </div>
+                    </Box>
                 </>
             )}
         </StyledRecipeArticle>
@@ -93,10 +109,6 @@ const StyledRecipeArticle = styled.article`
     }
     li {
         font-size: 1.2rem;
-    }
-    .instructions,
-    .ingredients {
-        padding: 1rem 0;
     }
 `;
 
