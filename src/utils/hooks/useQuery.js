@@ -6,7 +6,7 @@ export const useQuery = ({ method, endpoint, data, defaultValue, options }) => {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(true);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const recipes = await axios({
                 method,
