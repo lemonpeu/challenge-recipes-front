@@ -5,17 +5,23 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '../utils/hooks/useQuery';
 import Form from './Form';
 import Rating from '../sections/article/Rating';
+import { useEffect } from 'react/cjs/react.development';
 
 const RecipeArticle = () => {
     let { id } = useParams();
+
+    const [recipe, setRecipe] = useState();
+    const [userQuantity, setUserQuantity] = useState(1);
+
     const { elements, loading } = useQuery({
         method: 'get',
-        endpoint: '/api/recipes',
+        endpoint: '/api/recipe/' + id,
         defaultValue: [],
     });
-    let recipeObj = elements.find((element) => element.id === id);
 
-    const [userQuantity, setUserQuantity] = useState(1);
+    useEffect(() => {
+        if (!recipe) setRecipe(elements.recipe);
+    }, [elements, recipe]);
 
     const setDefaultQuantity = (ingredient) => {
         return ingredient.quantity !== ''
@@ -31,17 +37,19 @@ const RecipeArticle = () => {
 
     return (
         <StyledRecipeArticle>
-            {!loading && (
+            {loading ? (
+                <p>Loading</p>
+            ) : (
                 <>
-                    <Image src={recipeObj.urlAnimeImage} alt={recipeObj.name} />
-                    <h2>{recipeObj.name}</h2>
-                    <p>Rating: {recipeObj.rating / recipeObj.people} ⭐</p>
+                    <Image src={recipe.urlAnimeImage} alt={recipe.name} />
+                    <h2>{recipe.name}</h2>
+                    <p>Rating: {recipe.rating / recipe.people} ⭐</p>
                     <div>
                         <p>Send your rating for this recipe:</p>
-                        <Rating id={recipeObj.id} />
+                        <Rating id={recipe.id} />
                     </div>
                     <Form
-                        defaultValue={recipeObj.quantity}
+                        defaultValue={recipe.quantity}
                         btnName="Send"
                         name="quantity"
                         label="Servings:"
@@ -50,7 +58,7 @@ const RecipeArticle = () => {
                     <div className="ingredients">
                         <p>Ingredients:</p>
                         <ul>
-                            {recipeObj.Ingredients.map((ingredient, index) => (
+                            {recipe.Ingredients.map((ingredient, index) => (
                                 <li key={index}>
                                     - {`${setDefaultQuantity(ingredient)} ${ingredient.name}`}
                                 </li>
@@ -59,7 +67,7 @@ const RecipeArticle = () => {
                     </div>
                     <div className="instructions">
                         <p>Instructions:</p>
-                        {recipeObj.steps.map((step, index) => (
+                        {recipe.steps.map((step, index) => (
                             <p key={index}>{step}</p>
                         ))}
                     </div>

@@ -2,40 +2,24 @@ import { useState } from 'react';
 import { useQuery } from '../../utils/hooks/useQuery';
 import Form from '../../common/Form';
 import RecipesList from './RecipesList';
-import { capitalize } from '../../utils/convertString';
+import { useEffect } from 'react/cjs/react.development';
 
 const RecipesSearch = () => {
     const [recipes, setRecipes] = useState([]);
-    const [isOrder, setIsOrder] = useState(false);
+    const [query, setQuery] = useState({ text: '', type: '' });
     const { elements } = useQuery({
         method: 'get',
-        endpoint: '/api/recipes',
+        endpoint: query.text !== '' ? `/api/search?${query.type}=${query.text}` : `/api/recipes`,
         defaultValue: [],
     });
 
-    const findRecipes = (value) => {
-        const searchLowercase = value.toLowerCase();
-        const searchCapitalize = capitalize(value);
-        setIsOrder(false);
-        if (elements) {
-            let filteredRecipes = [];
-            for (const recipe of elements) {
-                if (recipe.name.includes(searchCapitalize || searchLowercase)) {
-                    filteredRecipes.push(recipe);
-                }
-                for (const ingredient of recipe.Ingredients) {
-                    if (ingredient.name.includes(searchCapitalize || searchLowercase)) {
-                        filteredRecipes.push(recipe);
-                    }
-                }
-                setRecipes(filteredRecipes);
-            }
-        }
-    };
+    useEffect(() => {
+        if (!recipes.length) setRecipes(elements);
+    }, [elements, recipes]);
 
     const onSubmit = (event) => {
         event.preventDefault();
-        findRecipes(event.target.search.value);
+        setQuery({ text: event.target.search.value, type: 'name' });
     };
 
     return (
@@ -44,15 +28,13 @@ const RecipesSearch = () => {
                 btnName="Search"
                 name="search"
                 label="Search recipes by name, anime name or ingredients"
-                elements={elements}
                 onSubmit={onSubmit}
-                onClick={() => setRecipes([])}
+                onClearSearch={() => setRecipes(recipes.recipes)}
                 isSecondaryBtn
             />
             <RecipesList
-                setIsOrder={(e) => setIsOrder(e)}
-                isOrder={isOrder}
-                searchRecipes={recipes}
+                recipesByOrder={(order) => setQuery({ text: order, type: 'order' })}
+                recipes={recipes.recipes}
             />
         </section>
     );
