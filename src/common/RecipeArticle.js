@@ -7,7 +7,7 @@ import { useQuery } from '../utils/hooks/useQuery';
 import Image from './Image';
 import Form from './Form';
 import Rating from '../sections/article/Rating';
-import Box from './styled/Article';
+import Box from './styled/Box';
 
 const RecipeArticle = () => {
     let { id } = useParams();
