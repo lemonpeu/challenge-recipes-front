@@ -4,6 +4,10 @@
 
 -   Made with React and styled components
 
+## New features!
+- Recipe rating feature is now fixed :) You can send your rating and it'll appear right away (RecipeArticle.js and Rating.js)
+- Search is now being handle by backend, so a lot of logic in the frontend was deleted (sections/principal/RecipeSearch.js)
+
 ### To run the project:
 
 First create .env file, its content should be:
