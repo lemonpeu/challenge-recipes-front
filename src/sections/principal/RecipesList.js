@@ -1,16 +1,30 @@
 import styled from 'styled-components';
 import Article from '../../common/Article';
 import Button from '../../common/Button';
+import Box from '../../common/styled/Box';
 
 const RecipesList = ({ recipes, recipesByOrder }) => {
     return (
         <StyledRecipesList>
             <h3 className="title">Recipes list</h3>
-            <Button onClick={() => recipesByOrder('asc')} btnName="The best!" styled="principal" />
-            <Button onClick={() => recipesByOrder('des')} btnName="Worst :(" styled="secondary" />
-            <section className="article-container">
+            <Box display justifyContent>
+                <Button
+                    onClick={() => recipesByOrder('asc')}
+                    btnName="The best!"
+                    styled="principal"
+                    m={0.5}
+                />
+                <Button
+                    onClick={() => recipesByOrder('des')}
+                    btnName="Worst :("
+                    styled="secondary"
+                    m={0.5}
+                />
+            </Box>
+
+            <div className="article-container">
                 {recipes && recipes.map((recipe) => <Article mb={2} {...recipe} key={recipe.id} />)}
-            </section>
+            </div>
         </StyledRecipesList>
     );
 };
@@ -21,6 +35,15 @@ const StyledRecipesList = styled.section`
         font-size: 2rem;
         text-align: center;
         margin-bottom: 2rem;
+    }
+
+    @media (min-width: 500px) {
+        .article-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 2rem;
+        }
     }
 `;
 
