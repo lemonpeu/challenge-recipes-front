@@ -9,6 +9,7 @@ const Header = ({ title, description, variant }) => {
                 src="https://i.pinimg.com/564x/b1/0c/56/b10c56c494df5267df0794eee5205b45.jpg"
                 alt=""
                 padding
+                widthM={'50%'}
             />
             <h1 className="title">{title}</h1>
             <h2>{description}</h2>

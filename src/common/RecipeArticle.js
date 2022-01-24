@@ -1,21 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Image from './Image';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '../utils/hooks/useQuery';
+
+//Components
+import Image from './Image';
 import Form from './Form';
 import Rating from '../sections/article/Rating';
+import Box from './styled/Box';
 
 const RecipeArticle = () => {
     let { id } = useParams();
     const { elements, loading } = useQuery({
         method: 'get',
-        endpoint: '/api/recipes',
+        endpoint: '/api/recipe/' + id,
         defaultValue: [],
     });
-    let recipeObj = elements.find((element) => element.id === id);
 
+    const [recipe, setRecipe] = useState();
     const [userQuantity, setUserQuantity] = useState(1);
+    const [userRating, setUserRating] = useState({ rating: 0, people: 0 });
+
+    useEffect(() => {
+        if (elements.recipe && !recipe) {
+            setRecipe(elements.recipe);
+            setUserRating({ rating: elements.recipe.rating, people: elements.recipe.people });
+        }
+    }, [elements, recipe]);
 
     const setDefaultQuantity = (ingredient) => {
         return ingredient.quantity !== ''
@@ -31,38 +42,51 @@ const RecipeArticle = () => {
 
     return (
         <StyledRecipeArticle>
-            {!loading && (
+            {loading ? (
+                <p>Loading</p>
+            ) : (
                 <>
-                    <Image src={recipeObj.urlAnimeImage} alt={recipeObj.name} />
-                    <h2>{recipeObj.name}</h2>
-                    <p>Rating: {recipeObj.rating / recipeObj.people} ⭐</p>
+                    <Image src={recipe.urlAnimeImage} alt={recipe.name} />
+                    <h2>{recipe.name}</h2>
+                    <p>
+                        Rating: {userRating && (userRating.rating / userRating.people).toFixed(1)}{' '}
+                        ⭐
+                    </p>
                     <div>
                         <p>Send your rating for this recipe:</p>
-                        <Rating id={recipeObj.id} />
+                        <Rating
+                            setUserRating={(e) =>
+                                setUserRating({
+                                    rating: userRating.rating + e,
+                                    people: userRating.people + 1,
+                                })
+                            }
+                            id={id}
+                        />
                     </div>
                     <Form
-                        defaultValue={recipeObj.quantity}
+                        defaultValue={recipe.quantity}
                         btnName="Send"
                         name="quantity"
                         label="Servings:"
                         onSubmit={multiplyQuantity}
                     />
-                    <div className="ingredients">
+                    <Box padding="1rem">
                         <p>Ingredients:</p>
                         <ul>
-                            {recipeObj.Ingredients.map((ingredient, index) => (
+                            {recipe.Ingredients.map((ingredient, index) => (
                                 <li key={index}>
                                     - {`${setDefaultQuantity(ingredient)} ${ingredient.name}`}
                                 </li>
                             ))}
                         </ul>
-                    </div>
-                    <div className="instructions">
+                    </Box>
+                    <Box padding="1rem">
                         <p>Instructions:</p>
-                        {recipeObj.steps.map((step, index) => (
+                        {recipe.steps.map((step, index) => (
                             <p key={index}>{step}</p>
                         ))}
-                    </div>
+                    </Box>
                 </>
             )}
         </StyledRecipeArticle>
@@ -85,10 +109,6 @@ const StyledRecipeArticle = styled.article`
     }
     li {
         font-size: 1.2rem;
-    }
-    .instructions,
-    .ingredients {
-        padding: 1rem 0;
     }
 `;
 

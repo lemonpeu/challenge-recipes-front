@@ -1,52 +1,30 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useQuery } from '../../utils/hooks/useQuery';
 import Article from '../../common/Article';
 import Button from '../../common/Button';
+import Box from '../../common/styled/Box';
 
-const RecipesList = ({ searchRecipes, setIsOrder, isOrder }) => {
-    const [recipes, setRecipies] = useState([]);
-    const [isOrderAsc, setIsOrderAsc] = useState(false);
-    const { elements, loading } = useQuery({
-        method: 'get',
-        endpoint: '/api/recipes',
-        defaultValue: [],
-    });
-
-    useEffect(() => {
-        if (!isOrder) {
-            if (searchRecipes.length > 0) {
-                setRecipies(searchRecipes);
-            } else if (searchRecipes.length < 1) {
-                setRecipies(elements);
-            }
-        }
-    }, [elements, searchRecipes, isOrder]);
-
-    const recipesByOrder = (value) => {
-        setIsOrderAsc(value);
-        setIsOrder(true);
-        if (isOrderAsc) {
-            recipes && recipes.sort((a, b) => a.rating - b.rating);
-            setRecipies(recipes);
-        } else {
-            recipes && recipes.sort((a, b) => b.rating - a.rating);
-            setRecipies(recipes);
-        }
-    };
-
+const RecipesList = ({ recipes, recipesByOrder }) => {
     return (
         <StyledRecipesList>
             <h3 className="title">Recipes list</h3>
-            <Button onClick={() => recipesByOrder(true)} btnName="The best!" styled="principal" />
-            <Button onClick={() => recipesByOrder(false)} btnName="Worst :(" styled="secondary" />
-            <section className="article-container">
-                {loading ? (
-                    <p>Loading</p>
-                ) : (
-                    recipes.map((recipe) => <Article mb={2} {...recipe} key={recipe.id} />)
-                )}
-            </section>
+            <Box display justifyContent>
+                <Button
+                    onClick={() => recipesByOrder('asc')}
+                    btnName="The best!"
+                    styled="principal"
+                    m={0.5}
+                />
+                <Button
+                    onClick={() => recipesByOrder('des')}
+                    btnName="Worst :("
+                    styled="secondary"
+                    m={0.5}
+                />
+            </Box>
+
+            <div className="article-container">
+                {recipes && recipes.map((recipe) => <Article mb={2} {...recipe} key={recipe.id} />)}
+            </div>
         </StyledRecipesList>
     );
 };
@@ -57,6 +35,15 @@ const StyledRecipesList = styled.section`
         font-size: 2rem;
         text-align: center;
         margin-bottom: 2rem;
+    }
+
+    @media (min-width: 500px) {
+        .article-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 2rem;
+        }
     }
 `;
 

@@ -3,25 +3,25 @@ import { rating } from '../../utils/rating';
 import { useQuery } from '../../utils/hooks/useQuery';
 import { useState } from 'react';
 
-const Rating = ({ id, setUserRanting }) => {
-    const [userRating, setUserRating] = useState({});
+const Rating = ({ id, setUserRating }) => {
+    const [ratingVal, setRatingVal] = useState({});
     const { _ } = useQuery({
         method: 'put',
         endpoint: '/api/recipe/' + id,
-        data: userRating,
+        data: ratingVal,
     });
 
     const sendRating = (value) => {
-        setUserRating({ rating: value });
-        setUserRanting(value);
+        setRatingVal({ rating: value });
+        setUserRating(value);
     };
 
     return (
         <div>
             {rating &&
-                rating.map((point) => (
+                rating.map((point, index) => (
                     <Button
-                        key={rating.value}
+                        key={index}
                         onClick={() => sendRating(point.value)}
                         btnName="⭐"
                         aria-label="star for rating"
