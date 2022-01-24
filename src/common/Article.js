@@ -38,9 +38,6 @@ const StyledArticle = styled.article`
     @media (min-width: 500px) {
         width: 40%;
     }
-    @media (min-width: 1000px) {
-        width: 33%;
-    }
 `;
 
 export default Article;
